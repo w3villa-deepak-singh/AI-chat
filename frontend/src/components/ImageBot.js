@@ -6,7 +6,7 @@ const ImageGenerator = () => {
 
 
   const [messages, setMessages] = useState([
-    {  }
+    { type: 'text', content: 'Hello! I can generate AI-based images with high resolution. Just describe the image you want!', sender: 'bot' }
   ]);
   const [input, setInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -58,20 +58,32 @@ const ImageGenerator = () => {
 
   return (
     <div className="container">
-      <div className="chat-header">Image AI</div>
+      <div className="chat-header">Image Generator</div>
       <div className="chat-window">
         {messages.map((msg, index) => (
           <div
             key={index}
             className={`message1 ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}
           >
-
-            {/* {msg.type === 'text' ? ( */}
+            {msg.sender === 'bot' && (
+              <img
+                src="https://via.placeholder.com/30/0000FF/808080?text=B"
+                alt="Bot Avatar"
+                className="avatar"
+              />
+            )}
+            {msg.type === 'text' ? (
               <div className="text">{msg.content}</div>
-            {/* ) : ( */}
-              {/* <img src={msg.content} alt="generated" className="generated-image" /> */}
-            {/* )} */}
-
+            ) : (
+              <img src={msg.content} alt="generated" className="generated-image" />
+            )}
+            {msg.sender === 'user' && (
+              <img
+                src="https://via.placeholder.com/30/FF0000/FFFFFF?text=U"
+                alt="User Avatar"
+                className="avatar"
+              />
+            )}
           </div>
         ))}
         {isGenerating && <div className="generating-indicator">Generating image...</div>}
@@ -83,7 +95,7 @@ const ImageGenerator = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           className="input"
-          placeholder="Type here..."
+          placeholder="Describe the image you want..."
         />
         <button onClick={handleGenerateImage} className="button">
           Generate
